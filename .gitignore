@@ -1,0 +1,9 @@
+*.o
+*.out
+build/
+.cache/
+.env
+.dotenv
+compile_commands.json
+
+
