@@ -1,34 +1,42 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.20)
 
 project(suckmore)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED 20)
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(suckmore)
-target_compile_features(suckmore PRIVATE cxx_std_20)
 target_sources(suckmore PRIVATE 
-    src/suckmore.cpp
+    ./src/suckmore.cpp
+    ./src/util.cpp
+    ./src/layouts/MStack.cpp
+    ./src/ds/CirDLinkedList.cpp
 )
 target_include_directories(suckmore PRIVATE 
-    src
-    /home/anant/coding/StrangeLib/include/
+    ./src
+    ./src/ds/
+    ./src/layouts/
 )
 target_link_libraries(suckmore PRIVATE 
     X11
     xcb
-    /home/anant/coding/StrangeLib/build/libStrangeLib.a
 )
 target_compile_options(suckmore PRIVATE
     -Wall
     -Wextra
     -Wpedantic
-    -O2
-    -g
+    -O0
+    -g3
+    -ggdb
 )
 
-
-
+# Optional: Strip prefix for debug paths
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(suckmore PRIVATE -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=.)
+endif()
 
 
 install(TARGETS suckmore
